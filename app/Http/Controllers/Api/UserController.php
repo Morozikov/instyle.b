@@ -74,10 +74,5 @@ class UserController extends Controller
         }
     }
 
-    public function updateData(Request $request){
-        $user = Auth::user();
-
-        $user->update($request->all());
-    }
 
 }

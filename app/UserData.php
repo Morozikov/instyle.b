@@ -31,11 +31,38 @@ class UserData extends Model
 
     public function getCityAttribute()
     {
-        $title = $this->city()->get('title_ru');
-        return $title;
+        $title = $this->city()->get();
+        $str = '';
+        foreach ($title as $ot){
+         $str = $ot['title_ru'];
+        }
+        return $str;
     }
 
-    protected $appends = ['age', 'full_name','city'];
+    public function getRegionAttribute()
+    {
+        $city = $this->city()->get();
+        $str = '';
+        foreach ($city as $regionModel){
+            $str = $regionModel['id'];
+        }
+        $region = Region::find($str);
+        return $region->title_ru;
+    }
+
+    public function getCountryAttribute()
+    {
+        $city = $this->city()->get();
+        $str = '';
+        foreach ($city as $regionModel){
+            $str = $regionModel['id'];
+        }
+        $region = Region::find($str);
+        $country = Country::find($region->country_id);
+        return $country->title_ru;
+    }
+
+    protected $appends = ['age', 'full_name','city','region','country'];
 
 
 
