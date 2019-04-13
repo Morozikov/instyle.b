@@ -39,32 +39,7 @@ class UserData extends Model
         return $str;
     }
 
-    public function getRegionAttribute()
-    {
-        $city = $this->city()->get();
-        $str = '';
-        foreach ($city as $regionModel){
-            $str = $regionModel['id'];
-        }
-        $region = Region::find($str);
-        return $region->title_ru;
-    }
-
-    public function getCountryAttribute()
-    {
-        $city = $this->city()->get();
-        $str = '';
-        foreach ($city as $regionModel){
-            $str = $regionModel['id'];
-        }
-        $region = Region::find($str);
-        $country = Country::find($region->country_id);
-        return $country->title_ru;
-    }
-
-    protected $appends = ['age', 'full_name','city','region','country'];
-
-
+    protected $appends = ['age', 'full_name','city'];
 
     public function user()
     {
