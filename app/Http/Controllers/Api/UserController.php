@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return User::with('userData')->get();
+        return User::with('userData')->paginate();
     }
 
     public function show($id)
