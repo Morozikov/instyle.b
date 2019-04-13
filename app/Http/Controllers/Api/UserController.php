@@ -17,12 +17,12 @@ class UserController extends Controller
 
     public function index()
     {
-        return User::all();
+        return User::with('userData')->get();
     }
 
-    public function show(User $user)
+    public function show($id)
     {
-
+        $user = User::with('userData')->find($id);
             return $user;
     }
 
@@ -43,6 +43,12 @@ class UserController extends Controller
 
         $user = Auth::user();
         $user->update($request->all());
+        $user->userData->update($request->all());
+        if ($request->has('city_id')) {
+            //
+            $user->userData->city_id = $request->input('city_id');
+        }
+
         return response()->json($user, 200);
     }
 
@@ -66,6 +72,12 @@ class UserController extends Controller
         else{
             return response()->json('Not valid email or password1', 500);
         }
+    }
+
+    public function updateData(Request $request){
+        $user = Auth::user();
+
+        $user->update($request->all());
     }
 
 }

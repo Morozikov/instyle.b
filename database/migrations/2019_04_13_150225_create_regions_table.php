@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableCountry extends Migration
+class CreateRegionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,17 @@ class CreateTableCountry extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('countries');
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::dropIfExists('regions');
+        Schema::create('regions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title_ru',60);
+
+            $table->string('title_ru',150);
             $table->boolean('is_active')->default(1);
+        });
+
+        Schema::table('regions', function($table) {
+            $table->bigInteger('country_id')->unsigned();
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });
     }
 
@@ -28,6 +34,6 @@ class CreateTableCountry extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('regions');
     }
 }
